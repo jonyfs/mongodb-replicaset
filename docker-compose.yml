@@ -5,7 +5,6 @@ services:
     image: mvertes/alpine-mongo:3.4.10-0
     container_name: mongodb1
     hostname: mongodb1
-    links: [mongodb2,mongodb3,mongodb4,mongodbarbiter]
     ports: ["27017:27017","28017:28017"]
     command: mongod --noprealloc --smallfiles --replSet rs0 --dbpath /data/db --nojournal --oplogSize 16 --noauth --rest
     environment:
