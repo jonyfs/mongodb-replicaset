@@ -53,3 +53,30 @@ echo "$(date) - Starting mongodbarbiter testing..."
 echo "$(date) - replicaset status:"
 mongo --host mongodbarbiter:27017 --eval "rs.status()"
 
+echo "$(date) - Starting mongodb4 testing..."
+echo "$(date) - replicaset status:"
+mongo --host mongodb4:27017 --eval "rs.status()"
+mongo --host mongodb4:27017 insert-data.js
+mongo --host mongodb4:27017 --eval "db.getCollection('contacts').createIndex({ name:1, email: 1},{sparse:true,background:true})"
+
+echo "$(date) - Starting mongodb1 testing..."
+echo "$(date) - replicaset status:"
+mongo --host mongodb1:27017 --eval "rs.status()"
+
+echo "$(date) - Adding mongodb4 to replicaset..."
+mongo --host mongodb1:27017 --eval "rs.add( { host: 'mongodbd4:27017', priority: 0.5 } );"
+
+echo "$(date) - replicaset status:"
+mongo --host mongodb1:27017 --eval "rs.status()"
+
+sh wait-until-mongodb4-secondary.started.sh
+
+echo "$(date) - Indexes:"
+mongo --host mongodb1:27017 --eval "db.getCollection('contacts').stats().indexSizes"
+mongo --host mongodb2:27017 --eval "db.getCollection('contacts').stats().indexSizes"
+mongo --host mongodb3:27017 --eval "db.getCollection('contacts').stats().indexSizes"
+mongo --host mongodb4:27017 --eval "db.getCollection('contacts').stats().indexSizes"
+
+
+
+

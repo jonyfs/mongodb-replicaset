@@ -27,12 +27,21 @@ services:
     command: mongod --noprealloc --smallfiles --replSet rs0 --dbpath /data/db --nojournal --oplogSize 16 --noauth --rest
     environment:
       TERM: xterm    
+
+  mongodb4:  
+    image: mvertes/alpine-mongo:3.4.10-0
+    container_name: mongodb4
+    hostname: mongodb4
+    ports: ["27020:27017","28020:28017"]      
+    command: mongod --noprealloc --smallfiles --replSet rs0 --dbpath /data/db --nojournal --oplogSize 16 --noauth --rest
+    environment:
+      TERM: xterm        
   
   mongodbarbiter:  
     image: mvertes/alpine-mongo:3.4.10-0
     container_name: mongodbarbiter
     hostname: mongodbarbiter
-    ports: ["27020:27017","28020:28017"]
+    ports: ["27021:27017","28021:28017"]
     command: mongod --noprealloc --smallfiles --replSet rs0 --dbpath /data/db --nojournal --oplogSize 16 --noauth --rest
     environment:
       TERM: xterm    
@@ -41,7 +50,7 @@ services:
     build: ./setup
     container_name: client
     hostname: client
-    links: [mongodb1,mongodb2,mongodb3,mongodbarbiter]
+    links: [mongodb1,mongodb2,mongodb3,mongodb4,mongodbarbiter]
     environment:
       MONGODB_USER: test
       MONGODB_PASSWORD: "@tesT123"
