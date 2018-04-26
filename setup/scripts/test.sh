@@ -56,7 +56,9 @@ mongo --host mongodbarbiter:27017 --eval "rs.status()"
 echo "$(date) - Starting mongodb4 testing..."
 echo "$(date) - replicaset status:"
 mongo --host mongodb4:27017 --eval "rs.status()"
+echo "$(date) - inserting data..."
 mongo --host mongodb4:27017 insert-data.js
+echo "$(date) - creating new index ..."
 mongo --host mongodb4:27017 --eval "db.getCollection('contacts').createIndex({ name:1, email: 1},{sparse:true,background:true})"
 
 echo "$(date) - Starting mongodb1 testing..."
