@@ -16,6 +16,9 @@ mongo --host mongodb1:27017 --eval "cfg = rs.conf();cfg.members[0].priority = 0.
 
 sh wait-until-mongodb2-primary-started.sh
 
+echo "$(date) - inserting data..."
+mongo --host mongodb2:27017 insert-data.js
+
 mongo --host mongodb1:27017 --eval "rs.status()"
 mongo --host mongodb1:27017 --eval "db.getCollection('contacts').count({})"
 mongo --host mongodb1:27017 --eval "db.isMaster().ismaster"
