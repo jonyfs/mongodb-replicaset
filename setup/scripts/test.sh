@@ -65,11 +65,10 @@ mongo --host mongodb1:27017 --eval "rs.status()"
 
 echo "$(date) - Adding mongodb4 to replicaset..."
 mongo --host mongodb1:27017 --eval "rs.add( { host: 'mongodbd4:27017', priority: 0.5 } );"
+sh wait-until-mongodb4-secondary.started.sh
 
 echo "$(date) - replicaset status:"
 mongo --host mongodb1:27017 --eval "rs.status()"
-
-sh wait-until-mongodb4-secondary.started.sh
 
 echo "$(date) - Indexes:"
 mongo --host mongodb1:27017 --eval "db.getCollection('contacts').stats().indexSizes"
