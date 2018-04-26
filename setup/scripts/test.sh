@@ -83,11 +83,11 @@ mongo --host mongodb2:27017 --eval "db.getCollection('contacts').stats().indexSi
 mongo --host mongodb3:27017 --eval "db.getCollection('contacts').stats().indexSizes"
 mongo --host mongodb4:27017 --eval "db.getCollection('contacts').stats().indexSizes"
 
-echo "$(date) - Count:"
-mongo --host mongodb1:27017 --eval "db.getCollection('contacts').count({})"
-mongo --host mongodb2:27017 --eval "db.getCollection('contacts').count({})"
-mongo --host mongodb3:27017 --eval "db.getCollection('contacts').count({})"
-mongo --host mongodb4:27017 --eval "db.getCollection('contacts').count({})"
+echo "$(date) - Sync Status:"
+while (true){
+    mongo --host mongodb1:27017 --eval "rs.printSlaveReplicationInfo()"
+}
+
 
 
 
