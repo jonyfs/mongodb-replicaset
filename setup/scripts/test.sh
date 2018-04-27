@@ -84,9 +84,10 @@ mongo --host mongodb3:27017 --eval "db.getCollection('contacts').stats().indexSi
 mongo --host mongodb4:27017 --eval "db.getCollection('contacts').stats().indexSizes"
 
 echo "$(date) - Sync Status:"
-while (true){
+while true
+do
     mongo --host mongodb1:27017 --eval "rs.printSlaveReplicationInfo()"
-}
+done
 
 
 
